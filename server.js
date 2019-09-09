@@ -12,6 +12,7 @@ server.get("/", (req, res) => {
 });
 
 // GET ALL
+// npx knex seed:run ===> set up db
 
 server.get("/accounts", (req, res) => {
   db.select("*")
@@ -21,6 +22,21 @@ server.get("/accounts", (req, res) => {
     })
     .catch(err => {
       res.status(500).json(err);
+    });
+});
+
+// GET by ID
+
+server.get("/accounts/:id", (req, res) => {
+  const { id } = req.params;
+  db("accounts")
+    .where({ id })
+    .first()
+    .then(account => {
+      res.status(200).json(account);
+    })
+    .catch(err => {
+      res.json(err);
     });
 });
 
